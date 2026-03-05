@@ -9,6 +9,7 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject boxPrefab;
     [SerializeField] private TMP_Text scoreText;
 
+
     void Start()
     {
        
@@ -17,6 +18,11 @@ public class GameManagerScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void GameOver()
+    {
+        scoreText.text = "Game Over";
     }
 
 }

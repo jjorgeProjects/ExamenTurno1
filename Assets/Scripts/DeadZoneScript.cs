@@ -14,4 +14,13 @@ public class DeadZoneScript : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            // Si el jugador entra en la zona de muerte, llamamos a la función GameOver del GameManager
+            gameManager.GetComponent<GameManagerScript>().GameOver();
+        }
+    }
 }
