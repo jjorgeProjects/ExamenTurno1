@@ -15,6 +15,8 @@ public class PlayerScript : MonoBehaviour
     //Variables para configurar la velocidad de movimiento y la fuerza de salto
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
+    // Variable para verificar si el jugador está en el suelo
+    public bool isGrounded = false;
 
     void Start()
     {
@@ -25,7 +27,9 @@ public class PlayerScript : MonoBehaviour
         // Evita que el raycast detecte el propio collider del jugador
         Physics2D.queriesStartInColliders = false; 
         // Inicializamos el parámetro de animación "IsGrounded" en false para que el jugador comience en el aire    
-        animator.SetBool("IsGrounded", false);
+        isGrounded = false;
+        animator.SetBool("IsGrounded", isGrounded);
+       
     }
 
     void Update()
@@ -51,25 +55,26 @@ public class PlayerScript : MonoBehaviour
         //Aplicamos el movimiento al Rigidbody2D
         rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, rb.linearVelocity.y);
         // Realizamos un raycast hacia abajo para verificar si el jugador está en el suelo
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.47f);
         // Si el raycast detecta un collider debajo del jugador, consideramos que está en el suelo
         if(hit.collider != null)
         {
             // Si el raycast detecta un collider debajo del jugador, consideramos que está en el suelo
-            animator.SetBool("IsGrounded", true);
-        }
-        else
+            isGrounded = true;
+            animator.SetBool("IsGrounded", isGrounded);
+        }else
         {   // Si el raycast no detecta ningún collider, el jugador está en el aire
-            animator.SetBool("IsGrounded", false);
+            isGrounded = false;
+            animator.SetBool("IsGrounded", isGrounded);
         }
+        
     }
 
     public void Jump(InputAction.CallbackContext context)
     {
         //Verificamos la fase del input para aplicar la fuerza de salto en la etapa "performed"
-        if(context.performed)
+        if(context.performed && isGrounded)
         {
-            //Aplicamos una fuerza hacia arriba para saltar
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
