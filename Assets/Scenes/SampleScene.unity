@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -475, y: -383}
+  m_AnchoredPosition: {x: -320, y: -170}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488869682
@@ -488,7 +488,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -656,7 +656,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpForce: 5
+  jumpForce: 40
+  isGrounded: 0
 --- !u!1 &1057665836
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +769,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.2793646, y: 0}
+  m_Offset: {x: 0.65336704, y: -0.37400174}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -778,7 +779,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 19.773195, y: 1}
+  m_Size: {x: 24.368074, y: 1.7480035}
   m_EdgeRadius: 0
 --- !u!4 &1060372728
 Transform:
@@ -1004,6 +1005,7 @@ MonoBehaviour:
   SpawnPoint3: {fileID: 1970875735}
   boxPrefab: {fileID: 3142037711711477898, guid: 487f71206b53d44c399209496ab720b0, type: 3}
   scoreText: {fileID: 488869682}
+  isGameOver: 0
 --- !u!1 &1479688573
 GameObject:
   m_ObjectHideFlags: 0

@@ -85,7 +85,6 @@ public class PlayerScript : MonoBehaviour
     // Función para manejar la interacción con las cajas al entrar en contacto con ellas
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Colision con: " + collision.gameObject.name);
         // Verificamos si el objeto con el que colisionamos es una caja (su nombre comienza con "Box")
         if(collision.gameObject.name.StartsWith("Box") && this.transform.parent == null)
         {   // Si el jugador no tiene un objeto padre, asignamos la caja como su hijo para que se mueva junto con el jugador
