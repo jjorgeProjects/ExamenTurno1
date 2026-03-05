@@ -1,4 +1,6 @@
+using Unity.Hierarchy;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
@@ -70,6 +72,7 @@ public class PlayerScript : MonoBehaviour
         
     }
 
+    // Función para manejar el input de salto del jugador
     public void Jump(InputAction.CallbackContext context)
     {
         //Verificamos la fase del input para aplicar la fuerza de salto en la etapa "performed"
@@ -78,5 +81,28 @@ public class PlayerScript : MonoBehaviour
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
+
+    // Función para manejar la interacción con las cajas al entrar en contacto con ellas
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Colision con: " + collision.gameObject.name);
+        // Verificamos si el objeto con el que colisionamos es una caja (su nombre comienza con "Box")
+        if(collision.gameObject.name.StartsWith("Box") && this.transform.parent == null)
+        {   // Si el jugador no tiene un objeto padre, asignamos la caja como su hijo para que se mueva junto con el jugador
+            this.transform.SetParent(collision.transform);
+        }
+
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        // Verificamos si el objeto con el que dejamos de colisionar es una caja (su nombre comienza con "Box")
+        if(collision.gameObject.name.StartsWith("Box"))
+        {   // Si el jugador deja de colisionar con la caja, removemos la relación de padre-hijo para que la caja ya no se mueva junto con el jugador
+            this.transform.SetParent(null);
+        }
+    }
+
+
 
 }
