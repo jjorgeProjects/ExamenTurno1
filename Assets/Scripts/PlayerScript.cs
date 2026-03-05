@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
         animator = GetComponent<Animator>();
         // Evita que el raycast detecte el propio collider del jugador
         Physics2D.queriesStartInColliders = false; 
-
+        // Inicializamos el parámetro de animación "IsGrounded" en false para que el jugador comience en el aire    
         animator.SetBool("IsGrounded", false);
     }
 
@@ -34,7 +34,16 @@ public class PlayerScript : MonoBehaviour
         movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
         // Actualizamos el parámetro de velocidad en el Animator para controlar las animaciones de movimiento
         animator.SetFloat("velocityX", Mathf.Abs(movementInput.x));
-        
+        if(movementInput.x > 0)
+        {
+            // Si el jugador se mueve hacia la derecha, aseguramos que la escala del sprite esté orientada hacia la derecha
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if(movementInput.x < 0)
+        {
+            // Si el jugador se mueve hacia la izquierda, invertimos la escala del sprite para que mire hacia la izquierda
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 
     void FixedUpdate()
