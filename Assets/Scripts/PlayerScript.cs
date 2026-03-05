@@ -11,8 +11,10 @@ public class PlayerScript : MonoBehaviour
 
     //Variable para el movimiento
     private Vector2 movementInput;
-
+    
+    //Variables para configurar la velocidad de movimiento y la fuerza de salto
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 5f;
 
     void Start()
     {
@@ -32,7 +34,17 @@ public class PlayerScript : MonoBehaviour
     {
         //Aplicamos el movimiento al Rigidbody2D
         rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, rb.linearVelocity.y);
+        
+    }
 
+    public void Jump(InputAction.CallbackContext context)
+    {
+        //Verificamos la fase del input para aplicar la fuerza de salto en la etapa "performed"
+        if(context.performed)
+        {
+            //Aplicamos una fuerza hacia arriba para saltar
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
     }
 
 }
