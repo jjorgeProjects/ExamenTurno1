@@ -12,7 +12,8 @@ public class GameManagerScript : MonoBehaviour
 
     void Start()
     {
-       
+        // Llamamos a la función SpawnBox cada 2 segundos para generar cajas de forma periódica
+       InvokeRepeating("SpawnBox", 2f, 2f);
     }
 
     void Update()
@@ -24,5 +25,30 @@ public class GameManagerScript : MonoBehaviour
     {
         scoreText.text = "Game Over";
     }
+
+    public void SpawnBox()
+    {
+        // Generamos un número aleatorio entre 0 y 2 para seleccionar uno de los tres puntos de spawn
+        int spawnPointIndex = UnityEngine.Random.Range(0, 3);
+        Vector3 spawnPosition;
+        switch(spawnPointIndex)
+        {
+            case 0:
+                spawnPosition = SpawnPoint1.transform.position;
+                break;
+            case 1:
+                spawnPosition = SpawnPoint2.transform.position;
+                break;
+            case 2:
+                spawnPosition = SpawnPoint3.transform.position;
+                break;
+            default:
+                spawnPosition = SpawnPoint1.transform.position;
+                break;
+        }
+        // Instanciamos una nueva caja en la posición seleccionada
+        Instantiate(boxPrefab, spawnPosition, Quaternion.identity);
+    }
+
 
 }

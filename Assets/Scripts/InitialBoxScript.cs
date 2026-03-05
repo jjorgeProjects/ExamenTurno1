@@ -11,7 +11,7 @@ public class InitialBoxScript : MonoBehaviour
         // Opción 2:Llama al método DestroyBox después de 2 segundos
         //Invoke("DestroyBox", 2f); 
         // Opción 3: Coroutina para destruir el GameObject después de un tiempo
-        StartCoroutine(DestroyAfterTime(2f));
+        StartCoroutine(DestroyAfterTime(10f));
 
 
     }
