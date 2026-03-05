@@ -9,6 +9,10 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject boxPrefab;
     [SerializeField] private TMP_Text scoreText;
 
+    // Variable para llevar el marcador de puntos
+    private int score = 0;
+
+    public bool isGameOver = false;
 
     void Start()
     {
@@ -23,7 +27,8 @@ public class GameManagerScript : MonoBehaviour
 
     public void GameOver()
     {
-        scoreText.text = "Game Over";
+        scoreText.text = "Game Over, Final Score: " + this.score.ToString();
+        isGameOver = true;
     }
 
     public void SpawnBox()
@@ -48,6 +53,20 @@ public class GameManagerScript : MonoBehaviour
         }
         // Instanciamos una nueva caja en la posición seleccionada
         Instantiate(boxPrefab, spawnPosition, Quaternion.identity);
+    }
+
+
+    public void AddScore()
+    {
+        // Si el juego ha terminado, no incrementamos el marcador
+        if(isGameOver)
+        {
+            return; 
+        }
+
+        // Incrementamos el marcador en 1 cada vez que se llama a esta función
+        this.score++;
+        scoreText.text = "Score: " +  this.score.ToString();
     }
 
 
