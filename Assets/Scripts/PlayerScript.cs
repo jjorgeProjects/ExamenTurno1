@@ -22,19 +22,37 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         animator = GetComponent<Animator>();
+        // Evita que el raycast detecte el propio collider del jugador
+        Physics2D.queriesStartInColliders = false; 
+
+        animator.SetBool("IsGrounded", false);
     }
 
     void Update()
     {
         //Obtenimos el input de movimiento del jugador
         movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
+        // Actualizamos el parámetro de velocidad en el Animator para controlar las animaciones de movimiento
+        animator.SetFloat("velocityX", Mathf.Abs(movementInput.x));
+        
     }
 
     void FixedUpdate()
     {
         //Aplicamos el movimiento al Rigidbody2D
         rb.linearVelocity = new Vector2(movementInput.x * moveSpeed, rb.linearVelocity.y);
-        
+        // Realizamos un raycast hacia abajo para verificar si el jugador está en el suelo
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
+        // Si el raycast detecta un collider debajo del jugador, consideramos que está en el suelo
+        if(hit.collider != null)
+        {
+            // Si el raycast detecta un collider debajo del jugador, consideramos que está en el suelo
+            animator.SetBool("IsGrounded", true);
+        }
+        else
+        {   // Si el raycast no detecta ningún collider, el jugador está en el aire
+            animator.SetBool("IsGrounded", false);
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
