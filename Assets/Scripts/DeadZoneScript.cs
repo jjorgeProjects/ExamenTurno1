@@ -14,4 +14,20 @@ public class DeadZoneScript : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //Destruirlo
+            Destroy(collision.gameObject);
+            gameManager.GetComponent<GameManagerScript>().SetGameOver();
+
+        }
+        else if (collision.gameObject.name.StartsWith("Box"))
+        {
+            Destroy(collision.gameObject);
+            gameManager.GetComponent<GameManagerScript>().IncreaseScore();
+        }
+    }
 }

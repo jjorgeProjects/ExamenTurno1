@@ -3,6 +3,7 @@ using UnityEngine;
 public class BoxScript : MonoBehaviour
 {
 
+    private float speedY = 2f;
     
     void Start()
     {
@@ -11,7 +12,7 @@ public class BoxScript : MonoBehaviour
 
     void Update()
     {
-        
+        transform.position += Vector3.down * speedY * Time.deltaTime;
     }
 
 
