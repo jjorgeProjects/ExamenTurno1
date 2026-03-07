@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class GameManagerScript : MonoBehaviour
 {
@@ -7,7 +7,12 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private GameObject SpawnPoint2;
     [SerializeField] private GameObject SpawnPoint3;
     [SerializeField] private GameObject boxPrefab;
+    [SerializeField] private GameObject initialBoxPrefab;
+    [SerializeField] private GameObject playerSpawnPoint;
+    [SerializeField] private GameObject initialBoxSpawnPoint;
     [SerializeField] private TMP_Text scoreText;
+    [SerializeField] private Button resetButton;
+
 
     // Variable para llevar el marcador de puntos
     private int score = 0;
@@ -18,6 +23,9 @@ public class GameManagerScript : MonoBehaviour
     {
         // Llamamos a la función SpawnBox cada 2 segundos para generar cajas de forma periódica
        InvokeRepeating("SpawnBox", 2f, 2f);
+
+        //El botón de reset solo se muestra cuando el juego termina, por lo que lo ocultamos al iniciar la escena
+       resetButton.gameObject.SetActive(false);
     }
 
     void Update()
@@ -29,6 +37,8 @@ public class GameManagerScript : MonoBehaviour
     {
         scoreText.text = "Game Over, Final Score: " + this.score.ToString();
         isGameOver = true;
+        // Mostramos el botón de reset para que el jugador pueda reiniciar el juego
+        resetButton.gameObject.SetActive(true);
     }
 
     public void SpawnBox()
@@ -69,5 +79,24 @@ public class GameManagerScript : MonoBehaviour
         scoreText.text = "Score: " +  this.score.ToString();
     }
 
+    public void ResetGame()
+    {
+        // Reiniciamos el marcador a 0 y actualizamos el texto en pantalla
+        this.score = 0;
+        scoreText.text = "Score: " + this.score.ToString();
+        // Reiniciamos el estado del juego para permitir que se sigan sumando puntos
+        isGameOver = false;
+
+        // Reposicionamos al jugador y a la caja inicial en sus puntos de spawn correspondientes
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = playerSpawnPoint.transform.position;
+        // Reiniciamos la velocidad del jugador para evitar que siga moviéndose después de ser reposicionado   
+        player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero; 
+        // Destruimos todas las cajas que estén actualmente en la escena para limpiar el juego
+        Instantiate(initialBoxPrefab, initialBoxSpawnPoint.transform.position, Quaternion.identity);
+
+        // Ocultamos el botón de reset nuevamente para que no se muestre durante el juego
+        resetButton.gameObject.SetActive(false);
+    }
 
 }
